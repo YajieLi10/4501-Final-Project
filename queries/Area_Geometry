@@ -1,0 +1,12 @@
+
+SELECT
+    tree_id,
+    species,
+    health,
+    status,
+    ST_AsText(ST_GeomFromWKB(geometry)) as coordinate_location 
+FROM trees
+WHERE     
+    ST_DistanceSphere(
+    ST_GeomFromText('POINT(-73.96253174434912 40.80737875669467)',4326),
+    trees.geometry) <= 804.67

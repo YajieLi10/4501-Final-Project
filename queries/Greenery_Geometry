@@ -1,0 +1,7 @@
+
+SELECT trees.zip_code, COUNT(*) AS num_trees
+FROM trees
+JOIN zipcodes ON ST_Contains(zipcodes.geometry, trees.geometry)
+GROUP BY trees.zip_code
+ORDER BY num_trees DESC
+LIMIT 10

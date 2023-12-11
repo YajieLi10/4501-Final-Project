@@ -1,0 +1,49 @@
+
+SELECT 
+    rent_low.zip_code, 
+    rent_low.average_rent, 
+    tree_count.num_trees AS num_trees,
+    complaint_count.num_complaints AS num_complaints
+FROM(
+    SELECT zip_code, ROUND(CAST(january2023 AS numeric),2) as average_rent
+    FROM rents
+    ORDER BY average_rent ASC
+    LIMIT 5
+    ) AS rent_low
+LEFT JOIN (
+    SELECT zip_code, COUNT(*) AS num_trees
+    FROM trees
+    GROUP BY zip_code
+    ) AS tree_count ON rent_low.zip_code = tree_count.zip_code  
+LEFT JOIN (
+    SELECT zip_code, COUNT(*) AS num_complaints
+    FROM complaints
+    GROUP BY zip_code
+    ) AS complaint_count ON rent_low.zip_code = complaint_count.zip_code
+
+UNION ALL
+    
+SELECT 
+    rent_low.zip_code, 
+    rent_low.average_rent, 
+    COALESCE(tree_count.num_trees, 0) AS num_trees,
+    COALESCE(complaint_count.num_complaints, 0) AS num_complaints
+FROM(
+    SELECT zip_code, ROUND(CAST(january2023 AS numeric),2) as average_rent
+    FROM rents
+    ORDER BY average_rent DESC
+    LIMIT 5
+    ) AS rent_low
+LEFT JOIN (
+    SELECT zip_code, COUNT(*) AS num_trees
+    FROM trees
+    GROUP BY zip_code
+    ) AS tree_count ON rent_low.zip_code = tree_count.zip_code  
+LEFT JOIN (
+    SELECT zip_code, COUNT(*) AS num_complaints
+    FROM complaints
+    GROUP BY zip_code
+    ) AS complaint_count ON rent_low.zip_code = complaint_count.zip_code
+    
+ORDER BY average_rent
+    
