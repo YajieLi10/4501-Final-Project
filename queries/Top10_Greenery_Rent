@@ -1,0 +1,15 @@
+
+SELECT 
+    top10trees.zip_code,
+    ROUND(CAST(rents.august2023 AS numeric),2) AS average_rent
+FROM (
+    SELECT zip_code,COUNT(*) AS num_trees
+    FROM trees
+    GROUP BY zip_code
+    ORDER BY num_trees DESC
+    LIMIT 10
+    )as top10trees
+JOIN 
+    rents ON top10trees.zip_code = rents.zip_code
+ORDER BY 
+    top10trees.num_trees DESC
