@@ -1,0 +1,19 @@
+Add the following Python package to run the notebook
+
+- json
+- pathlib
+- geoalchemy2
+- geopandas
+- pandas
+- requests
+- numpy
+- sqlalchemy
+- sqlite3
+- matplotlib
+- shapely
+- psycopg2
+
+
+- datetime from datetime
+- declarative_base from sqlalchemy.orm
+- create_engine from sqlalchemy
